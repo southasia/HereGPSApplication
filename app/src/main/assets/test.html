@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://js.api.here.com/v3/3.0/mapsjs-ui.css"/>
+    <script type="text/javascript" charset="UTF-8"
+            src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+    <script type="text/javascript" charset="UTF-8"
+            src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+    <script type="text/javascript" charset="UTF-8"
+            src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+    <script type="text/javascript" charset="UTF-8"
+            src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+
+    <style type="text/css">
+        #map {
+        position:fixed;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        }
+    </style>
+</head>
+<body>
+<div id="map"/>
+<script type="text/javascript" charset="UTF-8">
+         // location marker string declaretion
+         var liveLocation;
+         
+         // center to gps location function
+         function moveMapToGPS(map,center){
+           map.setZoom(15);
+           map.setCenter(center);
+         }
+         
+         // add marker to gps location function
+         function addMarkersToMap(map,center) {
+           // map.removeObjects(liveLocation);
+           liveLocation = new H.map.Marker(center);
+           map.addObject(liveLocation); }
+         
+
+         // initialize communication with the platform
+         var platform = new H.service.Platform({
+           app_id: 'DemoAppId01082013GAL',
+           app_code: 'AJKnXv84fjrb0KIHawS0Tg',
+           useCIT: true,
+           useHTTPS: true
+         });
+         var defaultLayers = platform.createDefaultLayers();
+         
+         // initialize a map  - not specificing a location will give a whole world view.
+         var map = new H.Map(document.getElementById('map'),
+           defaultLayers.normal.map);
+         
+         // make the map interactive
+         // MapEvents enables the event system
+         // Behavior implements default interactions for pan/zoom (also on mobile touch environments)
+         var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+         
+         // Create the default UI components
+         var ui = H.ui.UI.createDefault(map, defaultLayers);
+         
+         // call gps location functions
+         function callChangedLocation(center,centerSwitcher) {
+             if(centerSwitcher==1){
+                 moveMapToGPS(map,center);
+                 addMarkersToMap(map,center);
+             } else {
+                 addMarkersToMap(map,center);
+             }
+         }
+         
+
+
+
+
+
+
+</script>
+</body>
+</html>
